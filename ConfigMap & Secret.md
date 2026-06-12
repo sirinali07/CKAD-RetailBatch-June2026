@@ -1,11 +1,28 @@
 ## ConfigMap & Secrets
+In Kubernetes, applications should be **configuration-driven,** not hard-coded.
+**ConfigMaps** and **Secrets** help achieve this by separating configuration data from application code.
+
+**ConfigMap**
+A *ConfigMap* is used to store non-sensitive configuration data such as:
+- Database usernames
+- Application settings
+- Feature flags
+- Environment-specific values
+
+**Secret**
+A *Secret* stores sensitive information(Secrets are stored in *base64-encoded* format), such as:
+- Passwords
+- API tokens
+- Certificates
+- Database credentials
+
+----------------------------------------------------------------
 
 ### Task 1: Directly inject variables - Traditional Method
 ```
 vi env.yaml
 ```
 Add the given content, by pressing `INSERT`
-
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -27,6 +44,7 @@ spec:
 ```
 save the file using `ESCAPE + :wq!`
 
+Apply the YAML file
 ```
 kubectl apply -f env.yaml
 ```
@@ -35,7 +53,7 @@ kubectl describe pod env-pod
 ```
 Enter the pod and check if the variable has been passed correctly or not
 ```
-kubectl exec -it env-pod -- bash
+kubectl exec -it env-pod -- sh
 ```
 ```
 echo $db_user
@@ -52,6 +70,9 @@ Create a ConfigMap
 ```
 kubectl create cm cm-1 --from-literal=db_user=admin --from-literal=db_pwd=1234
 ```
+> Each `--from-literal` creates a key-value pair inside the ConfigMap.
+
+Verify ConfigMap
 ```
 kubectl get cm
 ```
@@ -60,17 +81,16 @@ kubectl describe cm cm-1
 ```
 Inject the ConfigMap into the Pod Yaml File
 ```
-vi env1.yaml
+vi env.yaml
 ```
 Add the given content, by pressing `INSERT`
-
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
   labels:
     app: web
-  name: web-pod-1
+  name: web-pod
 spec:
   containers:
   - image: httpd
@@ -83,15 +103,19 @@ spec:
 ```
 save the file using `ESCAPE + :wq!`
 
+> `envFrom` injects `all keys` from the ConfigMap as environment variables.
+
+Apply the YAML file
 ```
-kubectl apply -f env1.yaml
+kubectl apply -f env.yaml
 ```
+
 ```
-kubectl describe pod web-pod-1
+kubectl describe pod web-pod
 ```
 Enter the pod and check if the variable has been passed correctly or not
 ```
-kubectl exec -it web-pod-1 -- bash
+kubectl exec -it web-pod -- sh
 ```
 ```
 echo $db_user
@@ -103,130 +127,9 @@ echo $db_pwd
 env | grep db_
 ```
 
-### Task 3: Inject `PARTICULAR` variables from ConfigMaps(FromLiteral) into POD.
-Create a ConfigMap
-```
-kubectl create cm cm-1 --from-literal=db_user=admin --from-literal=db_pwd=1234
-```
-* Skip the step if cm-1 already created
-  
-```
-kubectl get cm
-```
-```
-kubectl describe cm cm-1
-```
-Inject particular variable from the ConfigMap into the Pod Yaml File
-```
-vi env2.yaml
-```
-Add the given content, by pressing `INSERT`
 
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app: web
-  name: web-pod-2
-spec:
-  containers:
-  - image: httpd
-    name: ctr-1
-    ports:
-    - containerPort: 80
-    env:
-    - name: db_password
-      valueFrom:
-        configMapKeyRef:
-          name: cm-1
-          key: db_pwd
-```
-save the file using `ESCAPE + :wq!`
 
-```
-kubectl apply -f env2.yaml 
-```
-```
-kubectl describe pod web-pod-2
-```
-Enter the pod and check if the variable has been passed correctly or not
-```
-kubectl exec -it web-pod-2 -- bash
-```
-```
-echo $db_user
-```
-```
-echo $db_pwd
-```
-```
-echo $db_password
-```
-```
-env | grep db_
-```
-### Task 4: Inject variables from ConfigMaps(FromFile) into POD.
-Create a file
-```
-vi token
-```
-```
-This is CKAD Training. We are practicing Injecting variables from ConfigMaps(FromFile) into POD.
-```
-Create a ConfigMap
-```
-kubectl create cm cm-file --from-file=token         #--from-file=<filen-name>. This file name acts as the key
-```
-```
-kubectl get cm
-```
-```
-kubectl describe cm cm-file
-```
-Inject particular variable from the ConfigMap into the Pod Yaml File
-```
-vi env3.yaml
-```
-Add the given content, by pressing `INSERT`
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app: web
-  name: web-pod-3
-spec:
-  containers:
-  - image: httpd
-    name: ctr-1
-    ports:
-    - containerPort: 80
-    envFrom:
-    - configMapRef:
-        name: cm-file
-```
-save the file using `ESCAPE + :wq!`
-
-```
-kubectl apply -f env3.yaml
-```
-```
-kubectl describe pod web-pod-3
-```
-Enter the pod and check if the variable has been passed correctly or not
-```
-kubectl exec -it web-pod-3 -- bash
-```
-```
-echo $token
-```
-```
-env | grep token
-```
-
-### Task 5 : Injecting ConfigMap as volume mount
+### Task 3 : Injecting ConfigMap as volume mount
 
 Create a file
 ```
@@ -237,34 +140,31 @@ This is CKAD Training. We are practicing Injecting variables from ConfigMaps(Fro
 ```
 Create a ConfigMap
 ```
-kubectl create cm cm-file --from-file=token        
+kubectl create cm file-cm --from-file=token        
 ```
-* Skip the step if cm-file already created
-
 ```
 kubectl get cm
 ```
 ```
-kubectl describe cm cm-file
+kubectl describe cm file-cm 
 ```
 Inject as volume mount
 ```
-vi env4.yaml
+vi env.yaml
 ```
 Add the given content, by pressing `INSERT`
-
 ```yaml
 apiVersion: v1
 kind: Pod
 metadata:
   labels:
     app: web
-  name: web-pod-4
+  name: web-pod
 spec:
   volumes:
   - name: cm-volume
     configMap:
-      name: cm-file
+      name: file-cm 
   containers:
   - image: httpd
     name: ctr-1
@@ -277,15 +177,17 @@ spec:
 ```
 save the file using `ESCAPE + :wq!`
 
+Apply the YAML file
+
 ```
-kubectl apply -f env4.yaml 
+kubectl apply -f env.yaml
 ```
 ```
-kubectl describe pod web-pod-4
+kubectl describe pod web-pod
 ```
-Enter the pod and check if the variable has been passed correctly or not
+Verify Mounted File
 ```
-kubectl exec -it web-pod-4 -- bash
+kubectl exec -it web-pod -- sh
 ```
 ```
 cd /app
@@ -293,12 +195,19 @@ cd /app
 ```
 cat token
 ```
+> ConfigMap key appears as a file inside the container.
+```
+exit
+```
 
-### Task 6 : Secret
+### Task 4 : Secret
 Imperative
 ```
 kubectl create secret generic secret-1 --from-literal=db_user=admin --from-literal=db_pwd=123
 ```
+> Secrets are base64-encoded, not encrypted by default.
+> Each `--from-literal` creates a key-value pair inside the Secret.
+
 ```
 kubectl get secret
 ```
@@ -310,7 +219,6 @@ Declrative
 vi secret.yaml
 ```
 Add the given content, by pressing `INSERT`
-
 ```yaml
 apiVersion: v1
 kind: Secret
@@ -337,6 +245,8 @@ data:
 ```
 save the file using `ESCAPE + :wq!`
 
+Apply the YAML file
+
 ```
 kubectl apply -f secret.yaml
 ```
@@ -353,7 +263,6 @@ Injecting all values
 vi sc-pod.yaml
 ```
 Add the given content, by pressing `INSERT`
-
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -373,6 +282,8 @@ spec:
 ```
 save the file using `ESCAPE + :wq!`
 
+Apply the YAML file
+
 ```
 kubectl apply -f sc-pod.yaml
 ```
@@ -380,7 +291,7 @@ kubectl apply -f sc-pod.yaml
 kubectl get po
 ```
 ```
-kubectl exec -it sc-pod -- bash
+kubectl exec -it sc-pod -- sh
 ```
 ```
 echo $db_user
@@ -399,4 +310,7 @@ echo $password
 ```
 ```
 env 
+```
+```
+exit
 ```
