@@ -1,5 +1,6 @@
 ## Multi-container
 
+
 A **multi-container pod** in Kubernetes contains more than one container that runs within the same pod. These containers share the same network namespace and can communicate using localhost. They also share storage volumes defined at the pod level.
 
 A **sidecar container** is used to provide supporting functionality to the main application container. It's common in scenarios where you want to offload certain responsibilities from the main container. Its an Auxiliary containers that enhance or support the main container (e.g., logging, monitoring, proxy services).
