@@ -101,6 +101,7 @@ spec:
   containers:
   - name: sec-ctx-pod2
     image: alpine:3
+    command: ["sh", "-c", "sleep 1h"]
     securityContext:
       runAsUser: 2000
       allowPrivilegeEscalation: false
