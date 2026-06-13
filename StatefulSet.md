@@ -94,10 +94,10 @@ kubectl get pods -w -l app=nginx-sts
 ```
 Create a busybox pod to test the ping to one of the Ngninx pods by using DNS name of the pod
 ```
-kubectl run -i --tty --image busybox:1.28 dns-test --restart=Never --rm
+kubectl run -it --image busybox:1.28 dns-test --restart=Never --rm
 ```
 ```
-nslookup nginx-sts-0.nginx-svc
+nslookup nginx-svc
 ```
 ```
 nslookup nginx-sts-1.nginx-svc
