@@ -9,7 +9,7 @@ The EBS CSI driver enables Kubernetes to interact with AWS EBS for provisioning,
 
 Install the AWS EBS CSI driver by using below command
 ```bash
-kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.37"
+kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.61"
 ```
 `Note :` For more detail visit the below page
 
