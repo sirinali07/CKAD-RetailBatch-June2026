@@ -81,7 +81,7 @@ kubectl describe cm cm-1
 ```
 Inject the ConfigMap into the Pod Yaml File
 ```
-vi env.yaml
+vi env2.yaml
 ```
 Add the given content, by pressing `INSERT`
 ```yaml
@@ -90,7 +90,7 @@ kind: Pod
 metadata:
   labels:
     app: web
-  name: web-pod
+  name: web-pod-1
 spec:
   containers:
   - image: httpd
@@ -107,15 +107,15 @@ save the file using `ESCAPE + :wq!`
 
 Apply the YAML file
 ```
-kubectl apply -f env.yaml
+kubectl apply -f env2.yaml
 ```
 
 ```
-kubectl describe pod web-pod
+kubectl describe pod web-pod-1
 ```
 Enter the pod and check if the variable has been passed correctly or not
 ```
-kubectl exec -it web-pod -- sh
+kubectl exec -it web-pod-1 -- sh
 ```
 ```
 echo $db_user
@@ -150,7 +150,7 @@ kubectl describe cm file-cm
 ```
 Inject as volume mount
 ```
-vi env.yaml
+vi env3.yaml
 ```
 Add the given content, by pressing `INSERT`
 ```yaml
@@ -159,7 +159,7 @@ kind: Pod
 metadata:
   labels:
     app: web
-  name: web-pod
+  name: web-pod-2
 spec:
   volumes:
   - name: cm-volume
@@ -180,14 +180,14 @@ save the file using `ESCAPE + :wq!`
 Apply the YAML file
 
 ```
-kubectl apply -f env.yaml
+kubectl apply -f env3.yaml
 ```
 ```
-kubectl describe pod web-pod
+kubectl describe pod web-pod-2
 ```
 Verify Mounted File
 ```
-kubectl exec -it web-pod -- sh
+kubectl exec -it web-pod-2 -- sh
 ```
 ```
 cd /app
