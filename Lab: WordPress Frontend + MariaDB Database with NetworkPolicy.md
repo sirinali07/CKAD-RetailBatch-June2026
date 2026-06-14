@@ -57,7 +57,10 @@ kubectl create ns wordpress-lab
 ### Step 2 — Deploy MariaDB
 Caption: Deploy a single-replica MariaDB instance pre-seeded with a `wordpress` DB and a `wpuser` account.
 
-Manifest (mariadb.yaml):
+```
+vi mariadb.yaml
+```
+Add the given content, by pressing `INSERT`
 
 ```yaml
 apiVersion: apps/v1
@@ -90,6 +93,7 @@ spec:
         ports:
         - containerPort: 3306
 ```
+save the file using `ESCAPE + :wq!`
 
 Apply:
 
@@ -101,8 +105,10 @@ kubectl apply -f mariadb.yaml
 
 ### Step 3 — Create MariaDB Service
 Caption: Expose MariaDB internally in the cluster via a ClusterIP `Service` named `mariadb`.
-
-Manifest (mariadb-svc.yaml):
+```
+vi mariadb-svc.yaml
+```
+Add the given content, by pressing `INSERT`
 
 ```yaml
 apiVersion: v1
@@ -117,6 +123,7 @@ spec:
   - port: 3306
     targetPort: 3306
 ```
+save the file using `ESCAPE + :wq!`
 
 Apply:
 
@@ -129,7 +136,11 @@ kubectl apply -f mariadb-svc.yaml
 ### Step 4 — Deploy WordPress
 Caption: Deploy the WordPress frontend configured to connect to the `mariadb` Service.
 
-Manifest (wordpress.yaml):
+```
+vi wordpress.yaml
+```
+
+Add the given content, by pressing `INSERT`
 
 ```yaml
 apiVersion: apps/v1
@@ -162,6 +173,7 @@ spec:
         ports:
         - containerPort: 80
 ```
+save the file using `ESCAPE + :wq!`
 
 Apply:
 
@@ -174,7 +186,11 @@ kubectl apply -f wordpress.yaml
 ### Step 5 — Create WordPress Service
 Caption: Make WordPress reachable (in this lab via `NodePort`) so you can inspect logs and behavior.
 
-Manifest (wordpress-svc.yaml):
+```
+wordpress-svc.yaml
+```
+
+Add the given content, by pressing `INSERT`
 
 ```yaml
 apiVersion: v1
@@ -190,6 +206,7 @@ spec:
     targetPort: 80
   type: NodePort
 ```
+save the file using `ESCAPE + :wq!`
 
 Apply:
 
@@ -254,7 +271,11 @@ Expected (before NetworkPolicy): connection succeeds.
 ### Step 9 — Apply NetworkPolicy to allow only WordPress → MariaDB
 Caption: Restrict ingress to MariaDB pods so only pods labeled `app=wordpress` may connect on TCP/3306.
 
-Manifest (allow-wordpress-db.yaml):
+```
+vi allow-wordpress-db.yaml
+```
+
+Add the given content, by pressing `INSERT`
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -277,6 +298,7 @@ spec:
     - protocol: TCP
       port: 3306
 ```
+save the file using `ESCAPE + :wq!`
 
 Apply:
 
@@ -344,6 +366,8 @@ What to see:
 Caption: Always pair allow rules with an explicit default deny to close unintended ingress.
 
 Add a default deny:
+
+Add the given content, by pressing `INSERT`
 
 ```yaml
 apiVersion: networking.k8s.io/v1
