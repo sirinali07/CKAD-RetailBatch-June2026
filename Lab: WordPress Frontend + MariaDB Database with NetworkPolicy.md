@@ -230,6 +230,7 @@ Expected: `wordpress-...` and `mariadb-...` should be in `Running` state.
 ---
 
 ### Step 7 — Verify WordPress → MariaDB connectivity
+
 Caption: Sanity-check the WordPress logs to ensure no DB connection errors and list services.
 
 Commands:
@@ -241,7 +242,26 @@ kubectl get svc -n wordpress-lab
 
 What to look for: absence of database connection errors in logs and a `mariadb` ClusterIP service.
 
+#### Browser access (NodePort):
+
+1. Get the NodePort assigned to the `wordpress` Service.
+2. Find a reachable node IP (ExternalIP or PublicIP).
+3. Use the URL and open it in your browser:
+
+```
+http://<NodeIP>:<NodePort>
+```
+
+Example:
+
+```
+http://100.92.0.40:31058
+```
+
+Caption: Use the Node IP and NodePort to access the WordPress frontend in a browser for manual verification.
+
 ---
+
 
 ### Step 8 — Create an "attacker" pod for testing
 Caption: Simulate an arbitrary pod trying to reach the DB to demonstrate policy enforcement.
