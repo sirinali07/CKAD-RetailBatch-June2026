@@ -349,8 +349,16 @@ kubectl exec -it <wordpress-pod> -n wordpress-lab -- bash
 
 ```
 apt update && apt install -y netcat-openbsd
+```
+**NetCat** is lightweight networking tool to check the TCP/UDP connections.
+
+```
 nc -zv mariadb 3306
 ```
+* nc --> NetCat
+* -zv --> Verbose output
+*  mariadb --> Targethost/service name
+*  3306 --> MySQL/MariaDB port no.
 
 Expected: `Connected` (WordPress → MariaDB allowed).
 
