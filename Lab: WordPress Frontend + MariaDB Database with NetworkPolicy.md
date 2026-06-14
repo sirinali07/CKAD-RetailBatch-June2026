@@ -26,7 +26,7 @@ Simple 2-tier application:
 Any other Pod ---> MariaDB  ❌ (denied)
 ```
 
-Caption: Only WordPress (app=wordpress) may initiate TCP/3306 to the MariaDB pods (app=mariadb).
+Note: Only WordPress (app=wordpress) may initiate TCP/3306 to the MariaDB pods (app=mariadb).
 
 ---
 
@@ -39,12 +39,12 @@ Note: This guide only documents the lab steps and verification commands; it does
 
 ---
 
-## Lab Steps (with captions)
+## Lab Steps (with Notes)
 
-Each step includes a short caption explaining intent and the commands/manifests used.
+Each step includes a short Note explaining intent and the commands/manifests used.
 
 ### Step 1 — Create namespace
-Caption: Isolate lab resources into a dedicated namespace for easy cleanup and clear scoping.
+Note: Isolate lab resources into a dedicated namespace for easy cleanup and clear scoping.
 
 Command:
 
@@ -55,7 +55,7 @@ kubectl create ns wordpress-lab
 ---
 
 ### Step 2 — Deploy MariaDB
-Caption: Deploy a single-replica MariaDB instance pre-seeded with a `wordpress` DB and a `wpuser` account.
+Note: Deploy a single-replica MariaDB instance pre-seeded with a `wordpress` DB and a `wpuser` account.
 
 ```
 vi mariadb.yaml
@@ -104,7 +104,7 @@ kubectl apply -f mariadb.yaml
 ---
 
 ### Step 3 — Create MariaDB Service
-Caption: Expose MariaDB internally in the cluster via a ClusterIP `Service` named `mariadb`.
+Note: Expose MariaDB internally in the cluster via a ClusterIP `Service` named `mariadb`.
 ```
 vi mariadb-svc.yaml
 ```
@@ -134,7 +134,7 @@ kubectl apply -f mariadb-svc.yaml
 ---
 
 ### Step 4 — Deploy WordPress
-Caption: Deploy the WordPress frontend configured to connect to the `mariadb` Service.
+Note: Deploy the WordPress frontend configured to connect to the `mariadb` Service.
 
 ```
 vi wordpress.yaml
@@ -184,7 +184,7 @@ kubectl apply -f wordpress.yaml
 ---
 
 ### Step 5 — Create WordPress Service
-Caption: Make WordPress reachable (in this lab via `NodePort`) so you can inspect logs and behavior.
+Note: Make WordPress reachable (in this lab via `NodePort`) so you can inspect logs and behavior.
 
 ```
 wordpress-svc.yaml
@@ -217,7 +217,7 @@ kubectl apply -f wordpress-svc.yaml
 ---
 
 ### Step 6 — Verify Pods
-Caption: Confirm both application and database pods are running before testing connectivity.
+Note: Confirm both application and database pods are running before testing connectivity.
 
 Command:
 
@@ -231,7 +231,7 @@ Expected: `wordpress-...` and `mariadb-...` should be in `Running` state.
 
 ### Step 7 — Verify WordPress → MariaDB connectivity
 
-Caption: Sanity-check the WordPress logs to ensure no DB connection errors and list services.
+Note: Sanity-check the WordPress logs to ensure no DB connection errors and list services.
 
 Commands:
 
@@ -258,13 +258,13 @@ Example:
 http://100.92.0.40:31058
 ```
 
-Caption: Use the Node IP and NodePort to access the WordPress frontend in a browser for manual verification.
+Note: Use the Node IP and NodePort to access the WordPress frontend in a browser for manual verification.
 
 ---
 
 
 ### Step 8 — Create an "attacker" pod for testing
-Caption: Simulate an arbitrary pod trying to reach the DB to demonstrate policy enforcement.
+Note: Simulate an arbitrary pod trying to reach the DB to demonstrate policy enforcement.
 
 Create the pod:
 
@@ -289,7 +289,7 @@ Expected (before NetworkPolicy): connection succeeds.
 ---
 
 ### Step 9 — Apply NetworkPolicy to allow only WordPress → MariaDB
-Caption: Restrict ingress to MariaDB pods so only pods labeled `app=wordpress` may connect on TCP/3306.
+Note: Restrict ingress to MariaDB pods so only pods labeled `app=wordpress` may connect on TCP/3306.
 
 ```
 vi allow-wordpress-db.yaml
@@ -329,7 +329,7 @@ kubectl apply -f allow-wordpress-db.yaml
 ---
 
 ### Step 10 — Verify enforcement
-Caption: Confirm WordPress can still reach MariaDB while the attacker pod cannot.
+Note: Confirm WordPress can still reach MariaDB while the attacker pod cannot.
 
 WordPress test (from WordPress pod):
 
@@ -366,7 +366,7 @@ Expected: `connection timed out` or similar error (attacker → MariaDB denied).
 ---
 
 ## Verify NetworkPolicy object
-Caption: Inspect the NetworkPolicy to review targeted pods, allowed sources, and ports.
+Note: Inspect the NetworkPolicy to review targeted pods, allowed sources, and ports.
 
 Command:
 
@@ -383,7 +383,7 @@ What to see:
 ---
 
 ## Production hardening (recommendation)
-Caption: Always pair allow rules with an explicit default deny to close unintended ingress.
+Note: Always pair allow rules with an explicit default deny to close unintended ingress.
 
 Add a default deny:
 
