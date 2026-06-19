@@ -1,3 +1,132 @@
+
+## What is Ingress?
+
+Ingress is a Kubernetes resource that manages external access to services within a cluster.
+
+It provides:
+
+* Path-Based Routing
+* Host-Based Routing
+* SSL/TLS Termination
+* Centralized Traffic Management
+
+Instead of exposing every application using a separate LoadBalancer Service, Ingress allows multiple applications to be accessed through a single entry point.
+
+---
+
+## What is an Ingress Controller?
+
+An Ingress resource only defines routing rules.
+
+An **Ingress Controller** is responsible for implementing those rules and routing traffic to the appropriate backend services.
+
+In this lab, we will use the **NGINX Ingress Controller**.
+
+---
+
+## Why Use Ingress?
+
+Without Ingress:
+
+```text
+Internet
+   |
+   |
+------------------
+|                |
+v                v
+
+LB Service    LB Service
+   |              |
+   v              v
+
+App-1         App-2
+```
+
+With Ingress:
+
+```text
+Internet
+    |
+    v
+
+Ingress Controller
+        |
+    ----------
+    |        |
+    v        v
+
+ App-1    App-2
+```
+
+Benefits:
+
+* Single Entry Point
+* Reduced Cost
+* Easier Management
+* Centralized Routing
+
+---
+
+## Lab Architecture
+
+```mermaid
+flowchart TD
+
+    Internet[Internet]
+
+    IC[NGINX Ingress Controller]
+
+    HTTPD[httpd-svc]
+    NGINX[nginx-svc]
+
+    APACHE[Apache Pods]
+    NGINXPODS[NGINX Pods]
+
+    Internet --> IC
+
+    IC --> HTTPD
+    IC --> NGINX
+
+    HTTPD --> APACHE
+    NGINX --> NGINXPODS
+```
+
+---
+
+## Traffic Flow Used in This Lab
+
+```mermaid
+flowchart LR
+
+    User[User Request]
+
+    Ingress[NGINX Ingress Controller]
+
+    Httpd[httpd-svc]
+    Nginx[nginx-svc]
+
+    User -->|"/"| Ingress
+    User -->|"/test"| Ingress
+
+    Ingress -->|"/"| Httpd
+    Ingress -->|"/test"| Nginx
+```
+---
+
+## Learning Objectives
+
+After completing this lab, you will be able to:
+
+* Deploy an NGINX Ingress Controller
+* Create Ingress Resources
+* Configure Path-Based Routing
+* Route Traffic to Multiple Applications
+* Verify and Troubleshoot Ingress Connectivity
+
+---
+
+
 ## Task 1 -  Deploy nginx-ingress-controller
 
 deploys the nginx-ingress-controller using the YAML manifest provided in the URL
