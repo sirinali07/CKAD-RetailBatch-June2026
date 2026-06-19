@@ -122,45 +122,58 @@ Grafana supports:
 
 ## Lab Architecture
 
+
 ```text
-+----------------------------------------------------+
-|                Kubernetes Cluster                  |
-+----------------------------------------------------+
-                       |
-                       |
-               Monitoring Namespace
-                       |
-      ------------------------------------------
-      |                                        |
-      |                                        |
-      v                                        v
++------------------------------------------------------+
+|                 Kubernetes Cluster                   |
++------------------------------------------------------+
 
-+------------------+              +------------------+
-|     Grafana      |------------->|   Prometheus     |
-+------------------+              +------------------+
-                                            |
-                                            |
-                           ----------------------------------
-                           |                |               |
-                           v                v               v
+      +--------------------+
+      |   Node Exporter    |
+      +--------------------+
+                 |
+                 |
+                 v
 
-                    Node Exporter   Kube-State-Metrics   Apps
+      +--------------------+
+      | Kube-State-Metrics |
+      +--------------------+
+                 |
+                 |
+                 v
 
-                                            |
-                                            |
-                                            v
+      +--------------------+
+      |   Applications     |
+      +--------------------+
+                 |
+                 |
+                 v
 
-                                      Metrics Store
+      +--------------------+
+      |    Prometheus      |
+      |  Metrics Storage   |
+      +--------------------+
+                 |
+                 |
+                 v
 
-                       |
-                       v
+      +--------------------+
+      |      Grafana       |
+      | Dashboards & Charts|
+      +--------------------+
+                 |
+                 |
+                 v
 
-                 LoadBalancer
+      +--------------------+
+      |   LoadBalancer     |
+      +--------------------+
+                 |
+                 |
+                 v
 
-                       |
-                       v
+      Browser Access
 
-                 Browser Access
 ```
 
 ---
@@ -318,7 +331,7 @@ Open browser.
 Login using:
 
 | Username: admin
-| Password: <retrieved-password>
+| Password: <"retrieved-password">
  
 **Validation**
 
