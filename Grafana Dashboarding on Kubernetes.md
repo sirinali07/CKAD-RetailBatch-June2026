@@ -199,7 +199,7 @@ Check Helm version.
 helm version
 ```
 
-### Validation
+**Validation**
 
 Helm should return a valid version.
 
@@ -225,7 +225,7 @@ Verify repository.
 helm search repo grafana
 ```
 
-### Validation
+**Validation**
 
 Grafana chart should be visible.
 
@@ -277,7 +277,7 @@ helm list -n monitoring
 
 ***Validation*** 
 
-Status should display: deployed
+Status should display → deployed
 
 
 ---
@@ -345,28 +345,23 @@ Grafana Dashboard should load successfully.
 
 Connections → Data Sources
 
-2. Click:
-
-Add Data Source
+2. Click → Add Data Source
 
 
-3. Select:
+3. Select → Prometheus
 
-Prometheus
 
 4. Enter URL:
 
-| http://<prometheus service i.e LoadBalancer Service URL>
+| http://<"prometheus service i.e LoadBalancer Service URL">
 
-http://a36f2c5ec321145f89d6999ef5712ea9-1005833477.ca-central-1.elb.amazonaws.com 
-
-
-5. Leave other setting as it is and click:
-
-Save & Test
+| i.e http://a36f2c5ec321145f89d6999ef5712ea9-1005833477.ca-central-1.elb.amazonaws.com 
 
 
-### Validation
+5. Leave other setting as it is and click → Save & Test
+
+
+**Validation**
 
 Message should display:  `Data source is working`
 
@@ -382,7 +377,7 @@ Dashboards → New → Import
 2. Import Dashboard ID:
 
 ```text
-15757
+15661
 ```
 
 3. Click → Load
@@ -392,7 +387,7 @@ Dashboards → New → Import
 5. Click → Import
 
 
-### Validation
+**Validation**
 
 Kubernetes monitoring dashboard should load successfully.
 
@@ -487,6 +482,6 @@ helm list -n monitoring
 
 Congratulations!
 
-You have successfully:
+
 
 
