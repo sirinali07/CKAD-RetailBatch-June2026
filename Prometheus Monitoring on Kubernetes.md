@@ -165,11 +165,6 @@ Check Helm version.
 helm version
 ```
 
-Expected Output:
-
-```text
-Version:"v3.x.x"
-```
 
 ### Validation
 
@@ -200,15 +195,8 @@ Verify repository.
 helm search repo prometheus
 ```
 
-Expected Output:
 
-```text
-prometheus-community/prometheus
-```
-
-### Validation
-
-Prometheus chart should be visible.
+***Validation:*** Prometheus chart should be visible.
 
 ---
 
@@ -224,12 +212,6 @@ Verify:
 
 ```bash
 kubectl get ns
-```
-
-Expected Output:
-
-```text
-monitoring   Active
 ```
 
 | **Note :** Namespaces isolate workloads and simplify management.
@@ -248,7 +230,7 @@ helm install prometheus prometheus-community/prometheus \
 
  | ***What happens behind the scenes?**
  | Helm automatically creates:
-  | * Deployments
+ | * Deployments
  | * Services
  | * ConfigMaps
  | * Service Accounts
