@@ -251,8 +251,10 @@ copy the ***Public IP address*** of the node where ingress controller is deploye
 ```
 kubectl -n ingress-ns get pods -o wide
 ```
-> https://<"Public-IP-Of-The-Node">:<"NodePort-Number">/test 
+> https://<"Public-IP-Of-The-Node">:<"NodePort-Number">/test
+
 | i.e : |
+
 > https://35.182.151.251:32289/test  AND  https://35.182.151.251:32289/test 
 
 ## Task 2 - Cleanup all resources created in the above steps
