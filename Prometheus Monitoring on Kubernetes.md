@@ -1,6 +1,6 @@
 # Prometheus Monitoring on Kubernetes using Helm
 
-# Business Scenario
+## Business Scenario
 
 Your organization is running containerized applications on Kubernetes.
 
@@ -15,7 +15,7 @@ As a Kubernetes Administrator, your task is to deploy Prometheus and validate mo
 
 ---
 
-# What is Prometheus?
+## What is Prometheus?
 
 Prometheus is an open-source monitoring and alerting platform maintained by the Cloud Native Computing Foundation (CNCF).
 
@@ -31,7 +31,7 @@ Common use cases include:
 
 ---
 
-# Prometheus Architecture
+## Prometheus Architecture
 
 ```text
 +------------------------------------------------+
@@ -61,9 +61,9 @@ Node Exporter  Kube-State-Metrics  Applications
 
 ---
 
-# Prometheus Components
+## Prometheus Components
 
-## Prometheus Server
+### Prometheus Server
 
 Responsible for:
 
@@ -72,9 +72,7 @@ Responsible for:
 * Running queries
 * Evaluating alerts
 
----
-
-## Node Exporter
+### Node Exporter
 
 Collects infrastructure metrics such as:
 
@@ -83,9 +81,7 @@ Collects infrastructure metrics such as:
 * Disk Usage
 * Network Statistics
 
----
-
-## Kube-State-Metrics
+### Kube-State-Metrics
 
 Collects Kubernetes object information such as:
 
@@ -95,9 +91,8 @@ Collects Kubernetes object information such as:
 * StatefulSets
 * Services
 
----
 
-## Alertmanager
+### Alertmanager
 
 Processes alerts and sends notifications to:
 
@@ -108,7 +103,7 @@ Processes alerts and sends notifications to:
 
 ---
 
-# Lab Architecture
+## Lab Architecture
 
 ```text
 +----------------------------------------------------+
@@ -150,7 +145,7 @@ Node Exporter   Kube-State-Metrics   Applications
 
 ---
 
-# Prerequisites
+## Prerequisites
 
 Before starting the lab, ensure:
 
@@ -162,7 +157,7 @@ Before starting the lab, ensure:
 
 ---
 
-# Task 1 - Verify Helm Installation
+## Task 1 - Verify Helm Installation
 
 Check Helm version.
 
@@ -182,7 +177,7 @@ Helm should return a valid version.
 
 ---
 
-# Task 2 - Add Prometheus Helm Repository
+## Task 2 - Add Prometheus Helm Repository
 
 
 Helm repositories host application charts.
@@ -217,7 +212,7 @@ Prometheus chart should be visible.
 
 ---
 
-# Task 3 - Create Monitoring Namespace
+## Task 3 - Create Monitoring Namespace
 
 Create a dedicated namespace.
 
@@ -241,7 +236,7 @@ monitoring   Active
 
 ---
 
-# Task 4 - Install Prometheus
+## Task 4 - Install Prometheus
 
 Deploy Prometheus using Helm.
 
@@ -273,7 +268,7 @@ helm list -n monitoring
 
 ---
 
-# Task 5 - Verify Pods
+## Task 5 - Verify Pods
 
 Check Prometheus components.
 
@@ -286,7 +281,7 @@ kubectl get pods -n monitoring
 
 ---
 
-# Task 6 - Verify Services
+## Task 6 - Verify Services
 
 Check services.
 
@@ -298,7 +293,7 @@ kubectl get svc -n monitoring
 
 ---
 
-# Task 7 - Access Prometheus
+## Task 7 - Access Prometheus
 
 Monitor service creation.
 
@@ -317,7 +312,7 @@ Prometheus Dashboard loads successfully.
 
 ---
 
-# Task 8 - Verify Targets
+## Task 8 - Verify Targets
 
 Navigate to: ***Status → Targets***
 
@@ -328,7 +323,7 @@ All targets should be healthy.
 
 ---
 
-# Task 9 - Execute PromQL Queries
+## Task 9 - Execute PromQL Queries
 
 Navigate to: **Graph**
 
@@ -346,7 +341,7 @@ Navigate to: **Graph**
 
 ---
 
-# Common Troubleshooting
+## Common Troubleshooting
 
 #### Pods Not Starting
 
@@ -384,7 +379,7 @@ Ensure External IP is assigned.
 
 ---
 
-# Cleanup
+## Cleanup
 
 Remove Prometheus.
 
@@ -406,14 +401,14 @@ kubectl get ns
 
 ---
 
-# Lab Summary
+## Lab Summary
 
 Congratulations!
 
 
 ---
 
-# Additional Challenge
+## Additional Challenge
 
 Try the following:
 
