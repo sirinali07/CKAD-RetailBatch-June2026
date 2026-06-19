@@ -1,4 +1,4 @@
-# 🪄 Helm 3 & WordPress Deployment on Kubernetes - LAB Guide
+# 🪄 Helm & WordPress Deployment on Kubernetes - LAB Guide
 
 > 💡 **Objective:**  
 > In this lab, you will learn how to **install Helm 3**, configure it with your Kubernetes cluster, and deploy a **WordPress application** using the **Bitnami Helm chart**.
