@@ -63,7 +63,7 @@ kubectl get po -o wide
 ```
 Before signing off, remove the label
 ```
-kubectl label nodes node1 disk type-
+kubectl label nodes node1 disktype-
 ```
 
 
